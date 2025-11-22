@@ -55,7 +55,7 @@ export function MessageCard({ message, onMessageDelete }: MessageCardProps) {
       <CardHeader className="relative">
         <div className="flex justify-between items-start gap-4">
           <CardTitle className="text-lg font-medium leading-relaxed">
-            "{message.content}"
+            {`"${message.content}"`}
           </CardTitle>
           <AlertDialog>
             <AlertDialogTrigger asChild>
