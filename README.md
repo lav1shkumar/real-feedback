@@ -22,6 +22,10 @@ Real Feedback is an anonymous messaging platform that enables users to receive h
 - **Email Service**: [Resend](https://resend.com/) & [React Email](https://react.email/)
 - **Form Handling**: [React Hook Form](https://react-hook-form.com/) & [Zod](https://zod.dev/)
 
+## 📐 Design Documentation
+
+For a detailed overview of the system architecture, including High-Level Design (HLD), Low-Level Design (LLD), please refer to the [Design Documentation](DESIGN.md).
+
 ## 🏁 Getting Started
 
 Follow these steps to set up the project locally on your machine.
