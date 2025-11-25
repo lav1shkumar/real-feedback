@@ -88,3 +88,14 @@ src/
 ├── types/            # TypeScript type definitions
 └── helpers/          # Helper functions (e.g., email sending)
 ```
+
+## 🚀 Deployment
+
+The application is deployed on [Vercel](https://vercel.com), the platform for frontend developers.
+
+To deploy your own version:
+
+1.  Push your code to a Git repository (GitHub, GitLab, Bitbucket).
+2.  Import your project into Vercel.
+3.  Add the environment variables in the Vercel dashboard.
+4.  Click **Deploy**.
