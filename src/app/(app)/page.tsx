@@ -1,9 +1,8 @@
 'use client';
 
-import Image from 'next/image';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { Mail } from 'lucide-react'; // Assuming you have an icon for messages
+import { Mail } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import Autoplay from 'embla-carousel-autoplay';
 import messages from '@/messages.json';
@@ -77,7 +76,7 @@ export default function Home() {
 
       {/* Footer */}
       <footer className="text-center p-6 md:p-8 border-t border-white/5 text-muted-foreground text-sm">
-        © 2023 Real Feedback. All rights reserved.
+        © 2025 Real Feedback. All rights reserved.
       </footer>
     </>
   );
