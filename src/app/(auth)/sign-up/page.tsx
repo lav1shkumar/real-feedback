@@ -19,7 +19,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/components/ui/use-toast';
 import axios, { AxiosError } from 'axios';
-import { Loader2 } from 'lucide-react';
+import { Loader2, Check, X } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { signUpSchema } from '@/schemas/signUpSchema';
 
@@ -97,41 +97,65 @@ export default function SignUpForm() {
     }
   };
 
+  const isUsernameAvailable = usernameMessage === 'Username is unique';
+
   return (
-    <div className="flex justify-center items-center min-h-screen bg-background relative overflow-hidden">
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-primary/20 rounded-full blur-[100px] -z-10 opacity-50 animate-pulse" />
-      <div className="w-full max-w-md p-8 space-y-8 glass rounded-2xl shadow-2xl animate-fade-in">
-        <div className="text-center">
-          <h1 className="text-4xl font-extrabold tracking-tight lg:text-5xl mb-6 bg-gradient-to-r from-indigo-400 to-cyan-400 bg-clip-text text-transparent">
-            Join Real Feedback
+    <div className="flex justify-center items-center min-h-screen bg-background px-4">
+      <div className="w-full max-w-sm animate-enter">
+        {/* Header */}
+        <div className="mb-8">
+          <Link href="/" className="inline-flex items-center gap-2 mb-8 group">
+            <div className="h-7 w-7 rounded-md bg-primary flex items-center justify-center">
+              <span className="text-primary-foreground font-bold text-xs">RF</span>
+            </div>
+            <span className="text-sm font-semibold text-foreground">Real Feedback</span>
+          </Link>
+          <h1 className="text-2xl font-bold tracking-tight text-foreground">
+            Create your account
           </h1>
-          <p className="mb-4 text-muted-foreground">Sign up to start your anonymous adventure</p>
+          <p className="text-sm text-muted-foreground mt-1">
+            Start receiving anonymous feedback in minutes.
+          </p>
         </div>
+
+        {/* Form */}
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
             <FormField
               name="username"
               control={form.control}
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-foreground">Username</FormLabel>
-                  <Input
-                    {...field}
-                    className="bg-secondary/50 border-border text-foreground focus:ring-primary"
-                    onChange={(e) => {
-                      field.onChange(e);
-                      setUsername(e.target.value);
-                    }}
-                  />
-                  {isCheckingUsername && <Loader2 className="animate-spin text-primary" />}
+                  <FormLabel className="text-xs font-medium text-muted-foreground uppercase tracking-wider">
+                    Username
+                  </FormLabel>
+                  <div className="relative">
+                    <Input
+                      {...field}
+                      placeholder="johndoe"
+                      className="h-10 pr-9"
+                      onChange={(e) => {
+                        field.onChange(e);
+                        setUsername(e.target.value);
+                      }}
+                    />
+                    {isCheckingUsername && (
+                      <div className="absolute right-3 top-1/2 -translate-y-1/2">
+                        <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />
+                      </div>
+                    )}
+                    {!isCheckingUsername && usernameMessage && (
+                      <div className="absolute right-3 top-1/2 -translate-y-1/2">
+                        {isUsernameAvailable ? (
+                          <Check className="h-4 w-4 text-green-500" />
+                        ) : (
+                          <X className="h-4 w-4 text-destructive" />
+                        )}
+                      </div>
+                    )}
+                  </div>
                   {!isCheckingUsername && usernameMessage && (
-                    <p
-                      className={`text-sm ${
-                        usernameMessage === 'Username is unique'
-                          ? 'text-green-500'
-                          : 'text-destructive'
-                      }`}
-                    >
+                    <p className={`text-xs mt-1 ${isUsernameAvailable ? 'text-green-500' : 'text-destructive'}`}>
                       {usernameMessage}
                     </p>
                   )}
@@ -144,47 +168,65 @@ export default function SignUpForm() {
               control={form.control}
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-foreground">Email</FormLabel>
-                  <Input {...field} name="email" className="bg-secondary/50 border-border text-foreground focus:ring-primary" />
-                  <p className='text-muted-foreground text-sm'>We will send you a verification code</p>
+                  <FormLabel className="text-xs font-medium text-muted-foreground uppercase tracking-wider">
+                    Email
+                  </FormLabel>
+                  <Input
+                    {...field}
+                    name="email"
+                    placeholder="you@example.com"
+                    className="h-10"
+                  />
+                  <p className="text-[11px] text-muted-foreground">
+                    We&apos;ll send a verification code to this address.
+                  </p>
                   <FormMessage />
                 </FormItem>
               )}
             />
-
             <FormField
               name="password"
               control={form.control}
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-foreground">Password</FormLabel>
-                  <Input type="password" {...field} name="password" className="bg-secondary/50 border-border text-foreground focus:ring-primary" />
+                  <FormLabel className="text-xs font-medium text-muted-foreground uppercase tracking-wider">
+                    Password
+                  </FormLabel>
+                  <Input
+                    type="password"
+                    placeholder="••••••••"
+                    {...field}
+                    name="password"
+                    className="h-10"
+                  />
                   <FormMessage />
                 </FormItem>
               )}
             />
-            <Button type="submit" className='w-full bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg shadow-primary/20 transition-all' disabled={isSubmitting}>
+            <Button
+              type="submit"
+              className="w-full h-10 text-sm font-medium"
+              disabled={isSubmitting}
+            >
               {isSubmitting ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Please wait
+                  Creating account…
                 </>
               ) : (
-                'Sign Up'
+                'Create account'
               )}
             </Button>
           </form>
         </Form>
-        <div className="text-center mt-4">
-          <p className="text-muted-foreground">
-            Already a member?{' '}
-            <Link href="/sign-in" className="text-primary hover:text-primary/80 font-medium transition-colors">
-              Sign in
-            </Link>
-          </p>
-        </div>
+
+        <p className="text-xs text-muted-foreground text-center mt-6">
+          Already have an account?{' '}
+          <Link href="/sign-in" className="text-primary hover:underline font-medium">
+            Sign in
+          </Link>
+        </p>
       </div>
     </div>
   );
 }
-

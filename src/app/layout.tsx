@@ -5,7 +5,10 @@ import AuthProvider from '../context/AuthProvider';
 import { Toaster } from '@/components/ui/toaster';
 import { ThemeProvider } from '@/components/ThemeProvider';
 
-const inter = Inter({ subsets: ['latin'] });
+const inter = Inter({
+  subsets: ['latin'],
+  variable: '--font-inter',
+});
 
 export const metadata: Metadata = {
   title: 'Real Feedback',
@@ -18,9 +21,9 @@ interface RootLayoutProps {
 
 export default async function RootLayout({ children }: RootLayoutProps) {
   return (
-    <html lang="en" >
+    <html lang="en" suppressHydrationWarning>
       <AuthProvider>
-        <body className={inter.className}>
+        <body className={`${inter.variable} font-sans`}>
           <ThemeProvider
             attribute="class"
             defaultTheme="dark"
@@ -35,4 +38,3 @@ export default async function RootLayout({ children }: RootLayoutProps) {
     </html>
   );
 }
-
