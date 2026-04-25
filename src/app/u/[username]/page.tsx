@@ -1,14 +1,14 @@
-'use client';
+"use client";
 
-import React, { useState } from 'react';
-import axios, { AxiosError } from 'axios';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
-import { Loader2 } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Separator } from '@/components/ui/separator';
-import { CardHeader, CardContent, Card } from '@/components/ui/card';
-import { useCompletion } from 'ai/react';
+import React, { useState } from "react";
+import axios, { AxiosError } from "axios";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { Loader2 } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
+import { CardHeader, CardContent, Card } from "@/components/ui/card";
+import { useCompletion } from "@ai-sdk/react";
 import {
   Form,
   FormControl,
@@ -16,16 +16,16 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
-import { Textarea } from '@/components/ui/textarea';
-import { toast } from '@/components/ui/use-toast';
-import * as z from 'zod';
-import { ApiResponse } from '@/types/ApiResponse';
-import Link from 'next/link';
-import { useParams } from 'next/navigation';
-import { messageSchema } from '@/schemas/messageSchema';
+} from "@/components/ui/form";
+import { Textarea } from "@/components/ui/textarea";
+import { toast } from "@/components/ui/use-toast";
+import * as z from "zod";
+import { ApiResponse } from "@/types/ApiResponse";
+import Link from "next/link";
+import { useParams } from "next/navigation";
+import { messageSchema } from "@/schemas/messageSchema";
 
-const specialChar = '||';
+const specialChar = "||";
 
 const parseStringMessages = (messageString: string): string[] => {
   return messageString.split(specialChar);
@@ -44,7 +44,7 @@ export default function SendMessage() {
     isLoading: isSuggestLoading,
     error,
   } = useCompletion({
-    api: '/api/suggest-messages',
+    api: "/api/suggest-messages",
     initialCompletion: initialMessageString,
   });
 
@@ -52,10 +52,10 @@ export default function SendMessage() {
     resolver: zodResolver(messageSchema),
   });
 
-  const messageContent = form.watch('content');
+  const messageContent = form.watch("content");
 
   const handleMessageClick = (message: string) => {
-    form.setValue('content', message);
+    form.setValue("content", message);
   };
 
   const [isLoading, setIsLoading] = useState(false);
@@ -63,23 +63,23 @@ export default function SendMessage() {
   const onSubmit = async (data: z.infer<typeof messageSchema>) => {
     setIsLoading(true);
     try {
-      const response = await axios.post<ApiResponse>('/api/send-message', {
+      const response = await axios.post<ApiResponse>("/api/send-message", {
         ...data,
         username,
       });
 
       toast({
         title: response.data.message,
-        variant: 'default',
+        variant: "default",
       });
-      form.reset({ ...form.getValues(), content: '' });
+      form.reset({ ...form.getValues(), content: "" });
     } catch (error) {
       const axiosError = error as AxiosError<ApiResponse>;
       toast({
-        title: 'Error',
+        title: "Error",
         description:
-          axiosError.response?.data.message ?? 'Failed to sent message',
-        variant: 'destructive',
+          axiosError.response?.data.message ?? "Failed to sent message",
+        variant: "destructive",
       });
     } finally {
       setIsLoading(false);
@@ -88,9 +88,9 @@ export default function SendMessage() {
 
   const fetchSuggestedMessages = async () => {
     try {
-      complete('');
+      complete("");
     } catch (error) {
-      console.error('Error fetching messages:', error);
+      console.error("Error fetching messages:", error);
       // Handle error appropriately
     }
   };
@@ -107,7 +107,9 @@ export default function SendMessage() {
             name="content"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="text-lg font-medium text-muted-foreground">Send Anonymous Message to @{username}</FormLabel>
+                <FormLabel className="text-lg font-medium text-muted-foreground">
+                  Send Anonymous Message to @{username}
+                </FormLabel>
                 <FormControl>
                   <Textarea
                     placeholder="Write your anonymous message here..."
@@ -126,7 +128,11 @@ export default function SendMessage() {
                 Sending...
               </Button>
             ) : (
-              <Button type="submit" disabled={isLoading || !messageContent} className="bg-primary hover:bg-primary/90 text-primary-foreground font-bold py-6 px-10 rounded-full shadow-lg hover:shadow-primary/20 transition-all duration-300 text-lg">
+              <Button
+                type="submit"
+                disabled={isLoading || !messageContent}
+                className="bg-primary hover:bg-primary/90 text-primary-foreground font-bold py-6 px-10 rounded-full shadow-lg hover:shadow-primary/20 transition-all duration-300 text-lg"
+              >
                 Send It
               </Button>
             )}
@@ -142,23 +148,29 @@ export default function SendMessage() {
             disabled={isSuggestLoading}
           >
             {isSuggestLoading ? (
-               <>
-                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                 Suggesting...
-               </>
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                Suggesting...
+              </>
             ) : (
-              'Suggest Messages'
+              "Suggest Messages"
             )}
           </Button>
-          <p className="text-sm text-muted-foreground">Click on any message below to select it.</p>
+          <p className="text-sm text-muted-foreground">
+            Click on any message below to select it.
+          </p>
         </div>
         <Card className="glass-card border-white/5">
           <CardHeader>
-            <h3 className="text-xl font-semibold text-foreground">Suggested Messages</h3>
+            <h3 className="text-xl font-semibold text-foreground">
+              Suggested Messages
+            </h3>
           </CardHeader>
           <CardContent className="flex flex-col space-y-4">
             {error ? (
-              <p className="text-destructive text-center font-medium">Failed to generate messages, please try again!</p>
+              <p className="text-destructive text-center font-medium">
+                Failed to generate messages, please try again!
+              </p>
             ) : (
               parseStringMessages(completion).map((message, index) => (
                 <Button
@@ -176,9 +188,16 @@ export default function SendMessage() {
       </div>
       <Separator className="my-8 bg-border/50" />
       <div className="text-center space-y-4">
-        <div className="text-lg font-medium text-muted-foreground">Get Your Own Message Board</div>
-        <Link href={'/sign-up'}>
-          <Button variant="default" className="rounded-full px-8 shadow-lg hover:shadow-primary/20 m-2">Create Your Account</Button>
+        <div className="text-lg font-medium text-muted-foreground">
+          Get Your Own Message Board
+        </div>
+        <Link href={"/sign-up"}>
+          <Button
+            variant="default"
+            className="rounded-full px-8 shadow-lg hover:shadow-primary/20 m-2"
+          >
+            Create Your Account
+          </Button>
         </Link>
       </div>
     </div>
