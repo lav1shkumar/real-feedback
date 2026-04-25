@@ -2,8 +2,8 @@
 
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { Mail } from 'lucide-react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Mail, ArrowRight, MessageCircle, Shield, Zap } from 'lucide-react';
+import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import Autoplay from 'embla-carousel-autoplay';
 import messages from '@/messages.json';
 
@@ -11,72 +11,121 @@ import {
   Carousel,
   CarouselContent,
   CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
 } from '@/components/ui/carousel';
 
 export default function Home() {
   return (
     <>
-      {/* Main content */}
-      <main className="flex-grow flex flex-col items-center justify-center px-4 md:px-24 py-12 bg-background text-foreground overflow-hidden relative">
-        {/* Background Elements */}
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[500px] bg-primary/20 rounded-full blur-[120px] -z-10 opacity-50 animate-pulse" />
-        
-        <section className="text-center mb-16 md:mb-24 max-w-4xl mx-auto animate-fade-in">
-          <h1 className="text-5xl md:text-7xl font-bold tracking-tighter mb-6 bg-gradient-to-b from-foreground to-foreground/50 bg-clip-text text-transparent">
-            Dive into the World of <br /> Anonymous Feedback
+      <main className="flex-grow flex flex-col items-center justify-center px-4 md:px-24 py-20 bg-background text-foreground relative">
+        {/* Subtle grid background */}
+        <div className="absolute inset-0 grid-bg opacity-50 pointer-events-none" />
+
+        <section className="text-center mb-20 max-w-2xl mx-auto relative animate-enter">
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-border bg-card text-xs text-muted-foreground font-medium mb-8">
+            <div className="h-1.5 w-1.5 rounded-full bg-primary animate-pulse" />
+            Anonymous feedback, redefined
+          </div>
+
+          <h1 className="text-4xl md:text-6xl font-bold tracking-tight mb-6 text-foreground leading-[1.1]">
+            Honest feedback,
+            <br />
+            <span className="text-primary">zero awkwardness.</span>
           </h1>
-          <p className="mt-4 text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-            Real Feedback - Where your identity remains a secret. Share your thoughts freely and securely.
+
+          <p className="text-base md:text-lg text-muted-foreground max-w-lg mx-auto leading-relaxed mb-10">
+            Create your personal link, share it anywhere, and receive candid, anonymous messages from people who matter.
           </p>
-          <div className="mt-8 flex justify-center gap-4">
-             <Link href="/sign-up">
-                <Button size="lg" className="rounded-full px-8 text-lg shadow-lg shadow-primary/20 hover:shadow-primary/40 transition-all">
-                  Get Started
-                </Button>
-             </Link>
-             <Link href="/sign-in">
-                <Button size="lg" variant="outline" className="rounded-full px-8 text-lg border-white/10 bg-white/5 hover:bg-white/10 backdrop-blur-sm">
-                  Login
-                </Button>
-             </Link>
+
+          <div className="flex justify-center gap-3">
+            <Link href="/sign-up">
+              <Button size="lg" className="h-11 px-6 text-sm font-medium gap-2">
+                Get started
+                <ArrowRight className="w-4 h-4" />
+              </Button>
+            </Link>
+            <Link href="/sign-in">
+              <Button
+                size="lg"
+                variant="outline"
+                className="h-11 px-6 text-sm font-medium"
+              >
+                Sign in
+              </Button>
+            </Link>
           </div>
         </section>
 
+        {/* Value props */}
+        <section className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-3xl mx-auto mb-20 w-full relative animate-slide-up">
+          {[
+            {
+              icon: Shield,
+              title: 'Fully anonymous',
+              desc: 'Senders stay completely hidden. No accounts needed to send.',
+            },
+            {
+              icon: Zap,
+              title: 'Instant delivery',
+              desc: 'Messages appear on your dashboard the moment they\'re sent.',
+            },
+            {
+              icon: MessageCircle,
+              title: 'AI suggestions',
+              desc: 'Not sure what to say? AI generates thoughtful prompts.',
+            },
+          ].map((item) => (
+            <div
+              key={item.title}
+              className="p-5 rounded-lg border border-border bg-card hover:bg-accent/50 transition-colors"
+            >
+              <item.icon className="w-5 h-5 text-primary mb-3" />
+              <h3 className="text-sm font-semibold text-foreground mb-1">{item.title}</h3>
+              <p className="text-xs text-muted-foreground leading-relaxed">{item.desc}</p>
+            </div>
+          ))}
+        </section>
+
         {/* Carousel for Messages */}
-        <Carousel
-          plugins={[Autoplay({ delay: 3000 })]}
-          className="w-full max-w-lg md:max-w-2xl animate-slide-up"
-        >
-          <CarouselContent>
-            {messages.map((message, index) => (
-              <CarouselItem key={index} className="p-4">
-                <Card className="glass-card !border-foreground/10 shadow-md h-full">
-                  <CardHeader>
-                    <CardTitle className="text-xl font-semibold tracking-tight">{message.title}</CardTitle>
-                  </CardHeader>
-                  <CardContent className="flex flex-col md:flex-row items-start space-y-4 md:space-y-0 md:space-x-4">
-                    <div className="p-3 rounded-full bg-primary/10 text-primary">
-                      <Mail className="w-6 h-6" />
-                    </div>
-                    <div className="space-y-2">
-                      <p className="text-muted-foreground leading-relaxed">{message.content}</p>
-                      <p className="text-xs text-muted-foreground/60 font-mono uppercase tracking-wider">
-                        {message.received}
+        <section className="w-full max-w-lg relative animate-slide-up">
+          <p className="text-xs text-muted-foreground uppercase tracking-widest font-medium text-center mb-4">
+            Recent messages
+          </p>
+          <Carousel
+            plugins={[Autoplay({ delay: 4000 })]}
+            className="w-full"
+          >
+            <CarouselContent>
+              {messages.map((message, index) => (
+                <CarouselItem key={index} className="p-2">
+                  <Card className="border-border bg-card">
+                    <CardHeader className="pb-2">
+                      <p className="text-xs text-muted-foreground font-medium">
+                        {message.title}
                       </p>
-                    </div>
-                  </CardContent>
-                </Card>
-              </CarouselItem>
-            ))}
-          </CarouselContent>
-        </Carousel>
+                    </CardHeader>
+                    <CardContent className="flex items-start gap-3">
+                      <div className="p-2 rounded-md bg-primary/10 text-primary shrink-0 mt-0.5">
+                        <Mail className="w-4 h-4" />
+                      </div>
+                      <div className="space-y-1.5 min-w-0">
+                        <p className="text-sm text-foreground leading-relaxed">
+                          {message.content}
+                        </p>
+                        <p className="text-[10px] text-muted-foreground uppercase tracking-wider">
+                          {message.received}
+                        </p>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+          </Carousel>
+        </section>
       </main>
 
-      {/* Footer */}
-      <footer className="text-center p-6 md:p-8 border-t border-white/5 text-muted-foreground text-sm">
-        © 2025 Real Feedback. All rights reserved.
+      <footer className="text-center py-6 border-t border-border text-muted-foreground text-xs">
+        © {new Date().getFullYear()} Real Feedback
       </footer>
     </>
   );

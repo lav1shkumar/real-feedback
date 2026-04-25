@@ -17,6 +17,7 @@ import { useParams, useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
 import { verifySchema } from '@/schemas/verifySchema';
+import Link from 'next/link';
 
 export default function VerifyAccount() {
   const router = useRouter();
@@ -52,29 +53,47 @@ export default function VerifyAccount() {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-background relative overflow-hidden">
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-primary/20 rounded-full blur-[100px] -z-10 opacity-50 animate-pulse" />
-      <div className="w-full max-w-md p-8 space-y-8 glass rounded-2xl shadow-2xl animate-fade-in">
-        <div className="text-center">
-          <h1 className="text-4xl font-extrabold tracking-tight lg:text-5xl mb-6 bg-gradient-to-r from-indigo-400 to-cyan-400 bg-clip-text text-transparent">
-            Verify Your Account
+    <div className="flex justify-center items-center min-h-screen bg-background px-4">
+      <div className="w-full max-w-sm animate-enter">
+        {/* Header */}
+        <div className="mb-8">
+          <Link href="/" className="inline-flex items-center gap-2 mb-8 group">
+            <div className="h-7 w-7 rounded-md bg-primary flex items-center justify-center">
+              <span className="text-primary-foreground font-bold text-xs">RF</span>
+            </div>
+            <span className="text-sm font-semibold text-foreground">Real Feedback</span>
+          </Link>
+          <h1 className="text-2xl font-bold tracking-tight text-foreground">
+            Verify your email
           </h1>
-          <p className="mb-4 text-muted-foreground">Enter the verification code sent to your email</p>
+          <p className="text-sm text-muted-foreground mt-1">
+            Enter the 6-digit code we sent to your email.
+          </p>
         </div>
+
+        {/* Form */}
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
             <FormField
               name="code"
               control={form.control}
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-foreground">Verification Code</FormLabel>
-                  <Input {...field} className="bg-secondary/50 border-border text-foreground focus:ring-primary" />
+                  <FormLabel className="text-xs font-medium text-muted-foreground uppercase tracking-wider">
+                    Verification code
+                  </FormLabel>
+                  <Input
+                    {...field}
+                    placeholder="123456"
+                    className="h-10 text-center text-lg tracking-[0.5em] font-mono"
+                  />
                   <FormMessage />
                 </FormItem>
               )}
             />
-            <Button type="submit" className='w-full bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg shadow-primary/20 transition-all'>Verify</Button>
+            <Button type="submit" className="w-full h-10 text-sm font-medium">
+              Verify
+            </Button>
           </form>
         </Form>
       </div>

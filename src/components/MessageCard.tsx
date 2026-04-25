@@ -3,9 +3,9 @@
 import React, { useState } from 'react';
 import axios, { AxiosError } from 'axios';
 import dayjs from 'dayjs';
-import { X } from 'lucide-react';
+import { Trash2 } from 'lucide-react';
 import { Message } from '@/model/User';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -37,7 +37,7 @@ export function MessageCard({ message, onMessageDelete }: MessageCardProps) {
       toast({
         title: response.data.message,
       });
-      onMessageDelete(message._id);
+      onMessageDelete(message._id.toString());
 
     } catch (error) {
       const axiosError = error as AxiosError<ApiResponse>;
@@ -51,41 +51,49 @@ export function MessageCard({ message, onMessageDelete }: MessageCardProps) {
   };
 
   return (
-    <Card className="glass-card transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
-      <CardHeader className="relative">
-        <div className="flex justify-between items-start gap-4">
-          <CardTitle className="text-lg font-medium leading-relaxed">
-            {`"${message.content}"`}
-          </CardTitle>
+    <Card className="group border-border bg-card hover:border-primary/20 transition-colors duration-200">
+      <CardContent className="p-5">
+        <div className="flex items-start justify-between gap-4">
+          <div className="space-y-2 min-w-0 flex-1">
+            <p className="text-sm text-foreground leading-relaxed">
+              {message.content}
+            </p>
+            <p className="text-[11px] text-muted-foreground font-mono">
+              {dayjs(message.createdAt).format('MMM D, YYYY · h:mm A')}
+            </p>
+          </div>
+
           <AlertDialog>
             <AlertDialogTrigger asChild>
-              <Button variant="ghost" size="icon" className="h-8 w-8 text-muted-foreground hover:text-destructive hover:bg-destructive/10 -mr-2 -mt-2">
-                <X className="w-4 h-4" />
+              <Button
+                variant="ghost"
+                size="icon"
+                className="h-8 w-8 shrink-0 text-muted-foreground/50 opacity-0 group-hover:opacity-100 hover:text-destructive hover:bg-destructive/10 transition-all"
+              >
+                <Trash2 className="w-3.5 h-3.5" />
               </Button>
             </AlertDialogTrigger>
             <AlertDialogContent>
               <AlertDialogHeader>
-                <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                <AlertDialogTitle>Delete message?</AlertDialogTitle>
                 <AlertDialogDescription>
-                  This action cannot be undone. This will permanently delete
-                  this message.
+                  This action cannot be undone. This message will be permanently
+                  removed.
                 </AlertDialogDescription>
               </AlertDialogHeader>
               <AlertDialogFooter>
-                <AlertDialogCancel className="bg-secondary text-secondary-foreground hover:bg-secondary/80">
-                  Cancel
-                </AlertDialogCancel>
-                <AlertDialogAction onClick={handleDeleteConfirm} className="bg-destructive text-destructive-foreground hover:bg-destructive/90">
+                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                <AlertDialogAction
+                  onClick={handleDeleteConfirm}
+                  className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+                >
                   Delete
                 </AlertDialogAction>
               </AlertDialogFooter>
             </AlertDialogContent>
           </AlertDialog>
         </div>
-        <div className="text-xs text-muted-foreground mt-4 font-mono">
-          {dayjs(message.createdAt).format('MMM D, YYYY h:mm A')}
-        </div>
-      </CardHeader>
+      </CardContent>
     </Card>
   );
 }

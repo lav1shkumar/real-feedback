@@ -59,24 +59,40 @@ export default function SignInForm() {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-background relative overflow-hidden">
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-primary/20 rounded-full blur-[100px] -z-10 opacity-50 animate-pulse" />
-      <div className="w-full max-w-md p-8 space-y-8 glass rounded-2xl shadow-2xl animate-fade-in">
-        <div className="text-center">
-          <h1 className="text-4xl font-extrabold tracking-tight lg:text-5xl mb-6 bg-gradient-to-r from-indigo-400 to-cyan-400 bg-clip-text text-transparent">
-            Welcome Back
+    <div className="flex justify-center items-center min-h-screen bg-background px-4">
+      <div className="w-full max-w-sm animate-enter">
+        {/* Header */}
+        <div className="mb-8">
+          <Link href="/" className="inline-flex items-center gap-2 mb-8 group">
+            <div className="h-7 w-7 rounded-md bg-primary flex items-center justify-center">
+              <span className="text-primary-foreground font-bold text-xs">RF</span>
+            </div>
+            <span className="text-sm font-semibold text-foreground">Real Feedback</span>
+          </Link>
+          <h1 className="text-2xl font-bold tracking-tight text-foreground">
+            Welcome back
           </h1>
-          <p className="mb-4 text-muted-foreground">Sign in to continue your secret conversations</p>
+          <p className="text-sm text-muted-foreground mt-1">
+            Sign in to your account to continue.
+          </p>
         </div>
+
+        {/* Form */}
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
             <FormField
               name="identifier"
               control={form.control}
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-foreground">Email/Username</FormLabel>
-                  <Input {...field} className="bg-secondary/50 border-border text-foreground focus:ring-primary" />
+                  <FormLabel className="text-xs font-medium text-muted-foreground uppercase tracking-wider">
+                    Email or username
+                  </FormLabel>
+                  <Input
+                    {...field}
+                    placeholder="you@example.com"
+                    className="h-10"
+                  />
                   <FormMessage />
                 </FormItem>
               )}
@@ -86,23 +102,31 @@ export default function SignInForm() {
               control={form.control}
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-foreground">Password</FormLabel>
-                  <Input type="password" {...field} className="bg-secondary/50 border-border text-foreground focus:ring-primary" />
+                  <FormLabel className="text-xs font-medium text-muted-foreground uppercase tracking-wider">
+                    Password
+                  </FormLabel>
+                  <Input
+                    type="password"
+                    placeholder="••••••••"
+                    {...field}
+                    className="h-10"
+                  />
                   <FormMessage />
                 </FormItem>
               )}
             />
-            <Button className='w-full bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg shadow-primary/20 transition-all' type="submit">Sign In</Button>
+            <Button className="w-full h-10 text-sm font-medium" type="submit">
+              Sign in
+            </Button>
           </form>
         </Form>
-        <div className="text-center mt-4">
-          <p className="text-muted-foreground">
-            Not a member yet?{' '}
-            <Link href="/sign-up" className="text-primary hover:text-primary/80 font-medium transition-colors">
-              Sign up
-            </Link>
-          </p>
-        </div>
+
+        <p className="text-xs text-muted-foreground text-center mt-6">
+          Don&apos;t have an account?{' '}
+          <Link href="/sign-up" className="text-primary hover:underline font-medium">
+            Sign up
+          </Link>
+        </p>
       </div>
     </div>
   );
