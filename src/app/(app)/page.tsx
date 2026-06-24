@@ -7,7 +7,7 @@ import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import Autoplay from 'embla-carousel-autoplay';
 import messages from '@/messages.json';
 
-import {
+import {    
   Carousel,
   CarouselContent,
   CarouselItem,
@@ -16,13 +16,12 @@ import {
 export default function Home() {
   return (
     <>
-      <main className="flex-grow flex flex-col items-center justify-center px-4 md:px-24 py-20 bg-background text-foreground relative">
+      <main className="flex-grow flex flex-col items-center px-4 md:px-24 py-15 bg-background text-foreground relative">
         {/* Subtle grid background */}
         <div className="absolute inset-0 grid-bg opacity-50 pointer-events-none" />
 
         <section className="text-center mb-20 max-w-2xl mx-auto relative animate-enter">
           <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-border bg-card text-xs text-muted-foreground font-medium mb-8">
-            <div className="h-1.5 w-1.5 rounded-full bg-primary animate-pulse" />
             Anonymous feedback, redefined
           </div>
 
@@ -56,7 +55,7 @@ export default function Home() {
         </section>
 
         {/* Value props */}
-        <section className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-3xl mx-auto mb-20 w-full relative animate-slide-up">
+        <section className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-4xl mx-auto mb-10 w-full relative animate-slide-up">
           {[
             {
               icon: Shield,
@@ -96,7 +95,7 @@ export default function Home() {
           >
             <CarouselContent>
               {messages.map((message, index) => (
-                <CarouselItem key={index} className="p-2">
+                <CarouselItem key={index} className="p-4">
                   <Card className="border-border bg-card">
                     <CardHeader className="pb-2">
                       <p className="text-xs text-muted-foreground font-medium">
